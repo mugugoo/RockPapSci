@@ -5,8 +5,9 @@
 </head>
 <body>
   <script>
-function createElem(_elem,_textcontent, _class) {
-  alert("fonction CreateElem appelée");
+
+function createElem(_elem,_textcontent,_class) {
+ // alert("fonction CreateElem appelée");
   for (j=0;j<arguments.length;j++)
   if (typeof arguments[j]!='string')
   arguments[j]="";
@@ -25,28 +26,65 @@ function computerPlay() {
   else if (hand>=1) return "Paper";
   else return "Scissors";
 } 
-//rock > paper > scissors
-function round(player,ai) {
-let transfo =function(n){
+function transfo (n){
     if (n.toLowerCase()=='rock') return 3;
     else if (n.toLowerCase()=='paper') return 2;
     else if (n.toLowerCase()=='scissors') return 1;
     else return -1;
 }
 
-player=transfo(player); ai=transfo(ai);
-if (player===-1) return 'please play the game seriously';
-if ((player===3 && ai==1)||(player<ai)) return "The player wins";
-else if (player===ai) return 'No winner this round';
-else return 'Skynet ever lives';
+function winOrLose(player,ai){
+  player=transfo(player); ai=transfo(ai);
+if (player===-1) return null;
+else if ((player===3 && ai==1)||(player<ai)) return 1;
+else if (player===ai) return 0;
+else return -1;
+}
+//rock > paper > scissors
+function roundMessage(result) {
+  if (result===1) return "The player wins";
+else if (result===-1) return 'Skynet ever lives';
+else if (result===0) return 'No winner this round';
+else return 'please play the game seriously';
+
 }
 
+function clickRoundEvent(Elem, pick) {
+Elem.addEventListener('click', ()=> {
+  let _div=document.createElement('div');
+  let _result=winOrLose(pick,computerPlay());
+_div.textContent=(roundMessage(_result));
+body.appendChild(_div);
+divScore.textContent="The score is:  Human:" + playerScore + "Machine:" + machineScore;
+if (_result===1) playerScore++;
+else if (_result===-1) machineScore++;
+}
+)}
+
+let playerScore=0;
+let machineScore=0;
+let rock, paper,scissors;
+let RPS=[,,];
 const body=document.querySelector('body');
 let _butt= ["Pierre","Papier", "Ciseaux"];
 let i;
+
 for (i=0; i<3;i++){
-  body.appendChild(createElem('button',_butt[i]));
+  RPS[i]=createElem('button',_butt[i], "RPS"+i)
+  body.appendChild(RPS[i]);
 }
+let divScore=document.createElement('div');
+divScore.textContent="The score is:  Human: " + playerScore + "Machine: " + machineScore;
+body.appendChild(divScore);
+
+
+
+let div=document.createElement('div');
+//should use function for clarity
+clickRoundEvent(RPS[0],'rock');
+clickRoundEvent(RPS[1],'paper');
+clickRoundEvent(RPS[2],'scissors');
+
 
 
 /*
@@ -55,17 +93,17 @@ let score=0; let turn=0;
 while (turn!=5 && score!=3) {
    let hand=prompt("So, what will you play?") ;
 
-let response=round(hand,computerPlay());
+let response=roundMessage(hand,computerPlay());
 console.log(response);
 turn++;
 console.log("turn " + turn);
 
-}
+} 
 }
 console.log(computerPlay());
-console.log(round(prompt("So, what will you play?") , computerPlay()));
-game();
-*/
+console.log(roundMessage(prompt("So, what will you play?") , computerPlay()));
+game(); */
+
 
 </script>
 </body>
