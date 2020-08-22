@@ -21,23 +21,43 @@ return a;
 }
 
 function computerPlay() {
+
   let hand=Math.random()*3;
-  if (hand>=2) return "Rock";
-  else if (hand>=1) return "Paper";
-  else return "Scissors";
+  if (hand>=2) {
+    //alert("r");
+    return "Rock";
+  }
+  else if (hand>=1)  {
+    //alert ("p");
+    return "Paper";
+
+  }
+  else {
+   // alert("s");
+    return "Scissors";
+
+  }
 } 
 function transfo (n){
-    if (n.toLowerCase()=='rock') return 3;
-    else if (n.toLowerCase()=='paper') return 2;
-    else if (n.toLowerCase()=='scissors') return 1;
+  console.log(n.toLowerCase());
+    if (n.toLowerCase()=='rock') {
+    //console.log("r");
+      return 3; }
+    else if (n.toLowerCase()=='paper') {
+      //console.log("p");
+      return 2; }
+    else if (n.toLowerCase()=='scissors') {
+     // console.log("p");
+      return 1; }
     else return -1;
 }
 
 function winOrLose(player,ai){
   player=transfo(player); ai=transfo(ai);
+  console.log("round: player=" + player + " and Machine=" + ai);
 if (player===-1) return null;
-else if ((player===3 && ai==1)||(player<ai)) return 1;
 else if (player===ai) return 0;
+else if ((player<ai)&&!((player===1)&&(ai===3))||((player===3)&&(ai===1))) { console.log("je suis rentré   " + (player<ai) + "   " + player + "=" + ai); return 1; }
 else return -1;
 }
 //rock > paper > scissors
